@@ -9818,21 +9818,17 @@ a.button {
 .bar.bar-gustame {
   background-color: #be1622; }
   .bar.bar-gustame .title {
-    color: #fff;
-    margin-left: 52px; }
+    background-image: url("../images/logo-header.png");
+    background-position: center;
+    height: 54px;
+    width: 92px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    z-index: 15;
+    position: absolute;
+    margin: -1px auto; }
   .bar.bar-gustame .button {
     color: #fff; }
-
-.logo-header {
-  background-image: url("../images/logo-header.png");
-  background-position: center;
-  height: 54px;
-  width: 92px;
-  background-size: 100%;
-  background-repeat: no-repeat;
-  z-index: 15;
-  position: absolute;
-  margin-left: 17%; }
 
 .button.button-primary {
   background-color: #be1622;

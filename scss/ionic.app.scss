@@ -27,26 +27,21 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
     background-color: #be1622;
 
     .title {
-      color: #fff;
-      margin-left: 52px;
+      background-image: url("../images/logo-header.png");
+      background-position: center;
+      height: 54px;
+      width: 92px;
+      background-size: 100%;
+      background-repeat: no-repeat;
+      z-index: 15;
+      position: absolute;
+      margin: -1px auto;
     }
 
     .button {
       color: #fff;
     }
   }
-}
-
-.logo-header {
-  background-image: url("../images/logo-header.png");
-  background-position: center;
-  height: 54px;
-  width: 92px;
-  background-size: 100%;
-  background-repeat: no-repeat;
-  z-index: 15;
-  position: absolute;
-  margin-left: 17%;
 }
 
 .button {
