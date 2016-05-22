@@ -63,40 +63,20 @@ app.run(["$ionicPlatform", "$ionicHistory", "$rootScope", function($ionicPlatfor
   });
 }]);
 
-app.controller("HomeController", ["$state", "$scope", function($state, $scope) {
-  $scope.pratos = [
-    {
-      id: 1,
-      nome: "Pudim",
-      descricao: "Delicioso pudim!",
-      imagemUrl: "http://s.glbimg.com/po/rc/media/2015/11/10/12_07_13_265_pudim_de_leite_condensado_4.jpg",
-      cozinheiro: {
-        nome: "João da Silva",
-        cidade: "Novo Hamburgo",
-        imagemUrl: "http://www.gravatar.com/avatar/39ea753c11ef1d94e09c1a9265767b4a"
-
-      }
-    }
-  ];
+app.controller("HomeController", ["$state", "PratoService", "$scope", function($state, PratoService, $scope) {
+  $scope.pratos = [];
 
   $scope.abrePrato = function(prato) {
     $state.go("prato", {pratoId: prato.id});
   };
+
+  PratoService.getList().then(function(pratos) {
+    $scope.pratos = pratos;
+  });
 }]);
 
-app.controller("PratoController", ["$state", "$stateParams", "$scope", function($state, $stateParams, $scope) {
-  $scope.prato = {
-    id: 1,
-    nome: "Pudim",
-    descricao: "Delicioso pudim!",
-    imagemUrl: "http://s.glbimg.com/po/rc/media/2015/11/10/12_07_13_265_pudim_de_leite_condensado_4.jpg",
-    cozinheiro: {
-      nome: "Gabriel Hoff",
-      cidade: "Novo Hamburgo",
-      imagemUrl: "http://www.gravatar.com/avatar/39ea753c11ef1d94e09c1a9265767b4a"
-
-    }
-  };
+app.controller("PratoController", ["$state", "$stateParams", "PratoService", "$scope", function($state, $stateParams, PratoService, $scope) {
+  $scope.prato = {};
 
   $scope.buscarPratos = function() {
     $state.go("home");
@@ -105,24 +85,16 @@ app.controller("PratoController", ["$state", "$stateParams", "$scope", function(
   $scope.efetuarPedido = function() {
     $state.go("pedido", {pratoId: $stateParams.pratoId});
   };
+
+  PratoService.getByIdentifier($stateParams.pratoId).then(function(prato) {
+    $scope.prato = prato;
+  });
 }]);
 
-app.controller("PedidoController", ["$ionicLoading", "$state", "$stateParams", "$scope", function($ionicLoading, $state, $stateParams, $scope) {
+app.controller("PedidoController", ["$ionicLoading", "$state", "$stateParams", "PratoService", "$scope", function($ionicLoading, $state, $stateParams, PratoService, $scope) {
   $scope.pedido = {
-    consumidor: {}
-  };
-
-  $scope.pedido.prato = {
-    id: 1,
-    nome: "Pudim",
-    descricao: "Delicioso pudim!",
-    imagemUrl: "http://s.glbimg.com/po/rc/media/2015/11/10/12_07_13_265_pudim_de_leite_condensado_4.jpg",
-    cozinheiro: {
-      nome: "Gabriel Hoff",
-      cidade: "Novo Hamburgo",
-      imagemUrl: "http://www.gravatar.com/avatar/39ea753c11ef1d94e09c1a9265767b4a"
-
-    }
+    consumidor: {},
+    prato: null
   };
 
   $scope.visualizarPrato = function() {
@@ -131,5 +103,33 @@ app.controller("PedidoController", ["$ionicLoading", "$state", "$stateParams", "
 
   $scope.realizarPedido = function() {
     $ionicLoading.show();
+  };
+
+  PratoService.getByIdentifier($stateParams.pratoId).then(function(prato) {
+    $scope.pedido.prato = prato;
+  });
+}]);
+
+app.service("PratoService", ["$q", function($q) {
+  var pratos = [
+    {
+      id: 1,
+      nome: "Pudim",
+      descricao: "Delicioso pudim!",
+      imagemUrl: "http://s.glbimg.com/po/rc/media/2015/11/10/12_07_13_265_pudim_de_leite_condensado_4.jpg",
+      cozinheiro: {
+        nome: "Gabriel Hoff",
+        cidade: "Novo Hamburgo",
+        imagemUrl: "http://www.gravatar.com/avatar/39ea753c11ef1d94e09c1a9265767b4a"
+      }
+    }
+  ];
+
+  this.getList = function() {
+    return $q.resolve(pratos);
+  };
+
+  this.getByIdentifier = function(id) {
+    return $q.resolve(pratos[0]);
   };
 }]);
