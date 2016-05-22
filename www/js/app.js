@@ -52,14 +52,6 @@ app.run(["$ionicPlatform", "$ionicHistory", "$rootScope", function($ionicPlatfor
       // remove the status bar on iOS or change it to use white instead of dark colors.
       StatusBar.styleDefault();
     }
-
-    $rootScope.goBack = function() {
-      $ionicHistory.goBack();
-    };
-
-    $rootScope.canBack = function() {
-      return true;
-    };
   });
 }]);
 
@@ -91,7 +83,7 @@ app.controller("PratoController", ["$state", "$stateParams", "PratoService", "$s
   });
 }]);
 
-app.controller("PedidoController", ["$ionicLoading", "$state", "$stateParams", "PratoService", "$scope", function($ionicLoading, $state, $stateParams, PratoService, $scope) {
+app.controller("PedidoController", ["$ionicLoading", "$ionicPopup", "$state", "$stateParams", "PratoService", "PedidoService", "$scope", function($ionicLoading, $ionicPopup, $state, $stateParams, PratoService, PedidoService, $scope) {
   $scope.pedido = {
     consumidor: {},
     prato: null
@@ -103,6 +95,21 @@ app.controller("PedidoController", ["$ionicLoading", "$state", "$stateParams", "
 
   $scope.realizarPedido = function() {
     $ionicLoading.show();
+
+    PedidoService.realizarPedido($scope.pedido).then(function() {
+      $ionicLoading.hide();
+
+      var alerta = $ionicPopup.alert({
+        title: "Pedido realizado",
+        template: "Em seguida entraremos em contato!"
+      });
+
+      alerta.then(function() {
+        $state.go("home");
+      });
+    }, function() {
+      $ionicLoading.hide();
+    });
   };
 
   PratoService.getByIdentifier($stateParams.pratoId).then(function(prato) {
@@ -131,5 +138,11 @@ app.service("PratoService", ["$q", function($q) {
 
   this.getByIdentifier = function(id) {
     return $q.resolve(pratos[0]);
+  };
+}]);
+
+app.service("PedidoService", ["$q", function($q) {
+  this.realizarPedido = function(pedido) {
+    return $q.resolve(pedido);
   };
 }]);
