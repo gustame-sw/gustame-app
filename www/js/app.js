@@ -59,7 +59,7 @@ app.controller("HomeController", ["$state", "PratoService", "$scope", function($
   $scope.pratos = [];
 
   $scope.abrePrato = function(prato) {
-    $state.go("prato", {pratoId: prato.id});
+    $state.go("prato", {pratoId: prato._id});
   };
 
   PratoService.getList().then(function(pratos) {
@@ -120,20 +120,6 @@ app.controller("PedidoController", ["$ionicLoading", "$ionicPopup", "$state", "$
 app.service("PratoService", ["$q", "$timeout", "$http", function($q, $timeout, $http) {
   var PratoService = this;
 
-  var pratos = [
-    {
-      id: 1,
-      nome: "Pudim",
-      descricao: "Delicioso pudim!",
-      imagemUrl: "http://s.glbimg.com/po/rc/media/2015/11/10/12_07_13_265_pudim_de_leite_condensado_4.jpg",
-      cozinheiro: {
-        nome: "Gabriel Hoff",
-        cidade: "Novo Hamburgo",
-        imagemUrl: "http://www.gravatar.com/avatar/39ea753c11ef1d94e09c1a9265767b4a"
-      }
-    }
-  ];
-
   this.getList = function() {
     return $http.get("/api/pratos/").then(function(response) {
       return response.data;
@@ -145,7 +131,7 @@ app.service("PratoService", ["$q", "$timeout", "$http", function($q, $timeout, $
   };
 
   this.getByIdentifier = function(id) {
-    return $http.get("/api/pratos/:pratoId", {pratoId: id}).then(function(response) {
+    return $http.get("/api/pratos/" + id).then(function(response) {
       return response.data;
     }, function() {
       return $timeout(1000).then(function() {
