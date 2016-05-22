@@ -13,6 +13,12 @@ app.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $ur
       templateUrl: "pages/home.html",
       controller: "HomeController"
     },
+    {
+      name: "prato",
+      url: "/prato/:id",
+      templateUrl: "pages/prato.html",
+      controller: "PratoController"
+    }
   ];
 
   for (var i = 0; i < routes.length; i++) {
@@ -23,7 +29,7 @@ app.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $ur
   $urlRouterProvider.otherwise("/");
 }]);
 
-app.run(["$ionicPlatform", function($ionicPlatform) {
+app.run(["$ionicPlatform", "$ionicHistory", "$rootScope", function($ionicPlatform, $ionicHistory, $rootScope) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs).
@@ -40,6 +46,14 @@ app.run(["$ionicPlatform", function($ionicPlatform) {
       // remove the status bar on iOS or change it to use white instead of dark colors.
       StatusBar.styleDefault();
     }
+
+    $rootScope.goBack = function() {
+      $ionicHistory.goBack();
+    };
+
+    $rootScope.canBack = function() {
+      return true;
+    };
   });
 }]);
 
@@ -48,7 +62,33 @@ app.controller("HomeController", ["$scope", function($scope) {
     {
       id: 1,
       nome: "Pudim",
-      descricao: "Delicioso pudim!"
+      descricao: "Delicioso pudim!",
+      imagemUrl: "http://s.glbimg.com/po/rc/media/2015/11/10/12_07_13_265_pudim_de_leite_condensado_4.jpg",
+      cozinheiro: {
+        nome: "João da Silva",
+        cidade: "Novo Hamburgo",
+        imagemUrl: "http://www.gravatar.com/avatar/39ea753c11ef1d94e09c1a9265767b4a"
+
+      }
     }
   ];
+}]);
+
+app.controller("PratoController", ["$state", "$scope", function($state, $scope) {
+  $scope.prato = {
+    id: 1,
+    nome: "Pudim",
+    descricao: "Delicioso pudim!",
+    imagemUrl: "http://s.glbimg.com/po/rc/media/2015/11/10/12_07_13_265_pudim_de_leite_condensado_4.jpg",
+    cozinheiro: {
+      nome: "Gabriel Hoff",
+      cidade: "Novo Hamburgo",
+      imagemUrl: "http://www.gravatar.com/avatar/39ea753c11ef1d94e09c1a9265767b4a"
+
+    }
+  };
+
+  $scope.buscarPratos = function() {
+    $state.go("home");
+  };
 }]);

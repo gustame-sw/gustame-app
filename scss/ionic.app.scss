@@ -29,6 +29,16 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
     .title {
       color: #fff;
     }
-  }
 
+    .button {
+      color: #fff;
+    }
+  }
+}
+
+.button {
+  &.button-secondary {
+    background-color: #f9b233;
+    color: #fff;
+  }
 }

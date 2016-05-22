@@ -9819,3 +9819,9 @@ a.button {
   background-color: #be1622; }
   .bar.bar-gustame .title {
     color: #fff; }
+  .bar.bar-gustame .button {
+    color: #fff; }
+
+.button.button-secondary {
+  background-color: #f9b233;
+  color: #fff; }
