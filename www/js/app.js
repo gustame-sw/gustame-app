@@ -117,7 +117,9 @@ app.controller("PedidoController", ["$ionicLoading", "$ionicPopup", "$state", "$
   });
 }]);
 
-app.service("PratoService", ["$q", function($q) {
+app.service("PratoService", ["$q", "$timeout", "$http", function($q, $timeout, $http) {
+  var PratoService = this;
+
   var pratos = [
     {
       id: 1,
@@ -133,16 +135,36 @@ app.service("PratoService", ["$q", function($q) {
   ];
 
   this.getList = function() {
-    return $q.resolve(pratos);
+    return $http.get("/api/pratos/").then(function(response) {
+      return response.data;
+    }, function(test) {
+      return $timeout(1000).then(function() {
+        return PratoService.getList();
+      });
+    });
   };
 
   this.getByIdentifier = function(id) {
-    return $q.resolve(pratos[0]);
+    return $http.get("/api/pratos/:pratoId", {pratoId: id}).then(function(response) {
+      return response.data;
+    }, function() {
+      return $timeout(1000).then(function() {
+        return PratoService.getByIdentifier(id);
+      });
+    });
   };
 }]);
 
-app.service("PedidoService", ["$q", function($q) {
+app.service("PedidoService", ["$timeout", "$http", function($timeout, $http) {
+  var PedidoService = this;
+
   this.realizarPedido = function(pedido) {
-    return $q.resolve(pedido);
+    return $http.post("/api/pedidos/", pedido).then(function() {
+
+    }, function() {
+      return $timeout(1000).then(function() {
+        return PedidoService.realizarPedido(pedido);
+      });
+    });
   };
 }]);
