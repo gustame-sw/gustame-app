@@ -28,12 +28,25 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 
     .title {
       color: #fff;
+      margin-left: 52px;
     }
 
     .button {
       color: #fff;
     }
   }
+}
+
+.logo-header {
+  background-image: url("../images/logo-header.png");
+  background-position: center;
+  height: 54px;
+  width: 92px;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  z-index: 15;
+  position: absolute;
+  margin-left: 17%;
 }
 
 .button {
@@ -45,5 +58,34 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
   &.button-secondary {
     background-color: #f9b233;
     color: #fff;
+  }
+}
+
+.card {
+  border-radius: 27px;
+
+  .item:first {
+    border-top-left-radius: 27px;
+    border-top-right-radius: 27px;
+  }
+
+  .item {
+    h2 {
+      font-family: "Sans";
+      font-size: 25px;
+      color: #fff;
+      text-shadow: 0px 2px #be1622;
+      text-transform: uppercase;
+    }
+
+    p {
+      font-family: "Sans";
+      font-size: 17px;
+      color: #fff;
+    }
+
+    .item-content {
+      background-color: #f9b233;
+    }
   }
 }
