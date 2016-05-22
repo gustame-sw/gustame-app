@@ -1,9 +1,14 @@
 <ion-view view-title="GustaMe">
-  <ion-list>
-    <ion-item class="item-thumbnail-right" href="#/prato/{{prato.id}}" ng-repeat="prato in pratos">
-      <img ng-src="{{prato.imagemUrl}}" />
-      <h2>{{prato.nome}}</h2>
-      <p>{{prato.descricao}}</p>
-    </ion-item>
-  </ion-list>
+  <ion-content>
+    <div class="card" ng-repeat="prato in pratos">
+      <ion-item class="item-image" ng-click="abrePrato(prato)">
+        <img ng-src="{{prato.imagemUrl}}" />
+      </ion-item>
+
+      <ion-item href="#/prato/{{prato.id}}">
+        <h2>{{prato.nome}}</h2>
+        <p>{{prato.descricao}}</p>
+      </ion-item>
+    </div>
+  </ion-content>
 </ion-view>

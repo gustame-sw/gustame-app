@@ -37,6 +37,11 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 }
 
 .button {
+  &.button-primary {
+    background-color: #be1622;
+    color: #fff;
+  }
+
   &.button-secondary {
     background-color: #f9b233;
     color: #fff;

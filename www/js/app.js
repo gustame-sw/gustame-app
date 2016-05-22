@@ -15,9 +15,15 @@ app.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $ur
     },
     {
       name: "prato",
-      url: "/prato/:id",
+      url: "/prato/:pratoId",
       templateUrl: "pages/prato.html",
       controller: "PratoController"
+    },
+    {
+      name: "pedido",
+      url: "/pedido/realizar/:pratoId",
+      templateUrl: "pages/pedido.html",
+      controller: "PedidoController"
     }
   ];
 
@@ -57,7 +63,7 @@ app.run(["$ionicPlatform", "$ionicHistory", "$rootScope", function($ionicPlatfor
   });
 }]);
 
-app.controller("HomeController", ["$scope", function($scope) {
+app.controller("HomeController", ["$state", "$scope", function($state, $scope) {
   $scope.pratos = [
     {
       id: 1,
@@ -72,9 +78,13 @@ app.controller("HomeController", ["$scope", function($scope) {
       }
     }
   ];
+
+  $scope.abrePrato = function(prato) {
+    $state.go("prato", {pratoId: prato.id});
+  };
 }]);
 
-app.controller("PratoController", ["$state", "$scope", function($state, $scope) {
+app.controller("PratoController", ["$state", "$stateParams", "$scope", function($state, $stateParams, $scope) {
   $scope.prato = {
     id: 1,
     nome: "Pudim",
@@ -90,5 +100,36 @@ app.controller("PratoController", ["$state", "$scope", function($state, $scope) 
 
   $scope.buscarPratos = function() {
     $state.go("home");
+  };
+
+  $scope.efetuarPedido = function() {
+    $state.go("pedido", {pratoId: $stateParams.pratoId});
+  };
+}]);
+
+app.controller("PedidoController", ["$ionicLoading", "$state", "$stateParams", "$scope", function($ionicLoading, $state, $stateParams, $scope) {
+  $scope.pedido = {
+    consumidor: {}
+  };
+
+  $scope.pedido.prato = {
+    id: 1,
+    nome: "Pudim",
+    descricao: "Delicioso pudim!",
+    imagemUrl: "http://s.glbimg.com/po/rc/media/2015/11/10/12_07_13_265_pudim_de_leite_condensado_4.jpg",
+    cozinheiro: {
+      nome: "Gabriel Hoff",
+      cidade: "Novo Hamburgo",
+      imagemUrl: "http://www.gravatar.com/avatar/39ea753c11ef1d94e09c1a9265767b4a"
+
+    }
+  };
+
+  $scope.visualizarPrato = function() {
+    $state.go("prato", {pratoId: $stateParams.pratoId});
+  };
+
+  $scope.realizarPedido = function() {
+    $ionicLoading.show();
   };
 }]);
