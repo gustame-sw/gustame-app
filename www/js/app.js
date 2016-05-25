@@ -121,7 +121,7 @@ app.service("PratoService", ["$q", "$timeout", "$http", function($q, $timeout, $
   var PratoService = this;
 
   this.getList = function() {
-    return $http.get("/api/pratos/").then(function(response) {
+    return $http.get("http://api.gustame.co/pratos/").then(function(response) {
       return response.data;
     }, function(test) {
       return $timeout(1000).then(function() {
@@ -131,7 +131,7 @@ app.service("PratoService", ["$q", "$timeout", "$http", function($q, $timeout, $
   };
 
   this.getByIdentifier = function(id) {
-    return $http.get("/api/pratos/" + id).then(function(response) {
+    return $http.get("http://api.gustame.co/pratos/" + id).then(function(response) {
       return response.data;
     }, function() {
       return $timeout(1000).then(function() {
@@ -145,7 +145,7 @@ app.service("PedidoService", ["$timeout", "$http", function($timeout, $http) {
   var PedidoService = this;
 
   this.realizarPedido = function(pedido) {
-    return $http.post("/api/pedidos/", pedido).then(function() {
+    return $http.post("http://api.gustame.co/pedidos/", pedido).then(function() {
 
     }, function() {
       return $timeout(1000).then(function() {
